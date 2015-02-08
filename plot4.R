@@ -1,0 +1,28 @@
+require(sqldf)
+require(data.table)
+#power_data <- read.csv.sql("household_power_consumption.txt", sep=";", header=TRUE, sql= "select * from file where Date ='1/2/2007' or Date='2/2/2007'")
+#power_data <- fread("household_power_consumption.txt", header=TRUE, sep=";", na.strings="?")
+power_data <- read.csv("household_power_consumption.txt", header=TRUE, sep=";", na.strings="?")
+power_data <- na.omit(power_data)
+power_data <- power_data[power_data$Date %in% c("1/2/2007", "2/2/2007"),]
+power_data$Date <- strptime(paste(power_data$Date,power_data$Time), "%d/%m/%Y %H:%M:%S")
+png("plot4.png", width=480, height=480)
+
+#2 by 2 plots
+par(mfrow=c(2,2),mar=c(4.1,4.1,4.1,2.1))
+#Global Active Power over time
+plot(power_data[,1], power_data[,3], type="l", ylab="Global Active Power", xlab="")
+#Voltage over time
+plot(power_data[,1], power_data[,5], type="l", ylab="Voltage", xlab="datetime")
+#3 sub meter readings over time
+plot(power_data[,1], power_data[,7], type="l", ylab="Energy sub metering", xlab="")
+lines(power_data[,1], power_data[,8], type="l", xlab="", col="red")
+lines(power_data[,1], power_data[,9], type="l", xlab="", col="blue")
+legend("topright", col=c("black", "red", "blue"), legend=c("sub_metering_1", "sub_metering_2", "sub_metering_3"), lty=1, bty="n")
+#Global Reactive Power over time
+plot(power_data[,1], power_data[,4], type="l", ylab="Global_reactive_power", xlab="datetime")
+#plot(power_data[,1], power_data[,7], type="l", ylab="Energy sub metering", xlab="")
+#lines(power_data[,1], power_data[,8], type="l", xlab="", col="red")
+#lines(power_data[,1], power_data[,9], type="l", xlab="", col="blue")
+#legend("topright", col=c("black", "red", "blue"), legend=c("sub_metering_1", "sub_metering_2", "sub_metering_3"), lty=1)
+dev.off()

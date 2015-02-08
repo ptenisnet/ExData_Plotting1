@@ -1,0 +1,11 @@
+require(sqldf)
+require(data.table)
+#power_data <- read.csv.sql("household_power_consumption.txt", sep=";", header=TRUE, sql= "select * from file where Date ='1/2/2007' or Date='2/2/2007'")
+#power_data <- fread("household_power_consumption.txt", header=TRUE, sep=";", na.strings="?")
+power_data <- read.csv("household_power_consumption.txt", header=TRUE, sep=";", na.strings="?")
+power_data <- na.omit(power_data)
+power_data <- power_data[power_data$Date %in% c("1/2/2007", "2/2/2007"),]
+power_data$Date <- strptime(paste(power_data$Date,power_data$Time), "%d/%m/%Y %H:%M:%S")
+png("plot1.png", width=480, height=480)
+hist(power_data[,3], col="red", xlab="Global Active Power(kilowatts)", main="Global Active Power")
+dev.off()
