@@ -21,8 +21,4 @@ lines(power_data[,1], power_data[,9], type="l", xlab="", col="blue")
 legend("topright", col=c("black", "red", "blue"), legend=c("sub_metering_1", "sub_metering_2", "sub_metering_3"), lty=1, bty="n")
 #Global Reactive Power over time
 plot(power_data[,1], power_data[,4], type="l", ylab="Global_reactive_power", xlab="datetime")
-#plot(power_data[,1], power_data[,7], type="l", ylab="Energy sub metering", xlab="")
-#lines(power_data[,1], power_data[,8], type="l", xlab="", col="red")
-#lines(power_data[,1], power_data[,9], type="l", xlab="", col="blue")
-#legend("topright", col=c("black", "red", "blue"), legend=c("sub_metering_1", "sub_metering_2", "sub_metering_3"), lty=1)
 dev.off()
